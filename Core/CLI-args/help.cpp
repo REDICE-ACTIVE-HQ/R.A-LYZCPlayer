@@ -20,26 +20,28 @@ Component Window(std::string title, Component component) {
 
 namespace  playbackmenu
 {
-	std::vector<std::string> playback_tab_entries = {"Local Stream Files", "Online Stream Files", "Core Info"};
-  std::vector<std::string> playback_tab_description = {"Desc 1", "Desc 2", "Desc 3"};
+	std::vector<std::string> playback_tab_entries = {"Local Stream", "Online Stream", "Core Info"};
+  std::vector<std::string> playback_tab_description = {"Desc 1", "Desc 2", "Version 0.0.0.0"};
+  std::vector<Element> playback_test_array = {text("1"), text("2"), text("3")};
 
   void ShowLocalStream()
 	{
-    auto screen = ScreenInteractive::TerminalOutput();
+    auto screen = ScreenInteractive::Fullscreen();
     int tab_menu_selected = 0;
     int general_tab_selected = 0;
 
     Component general_tab_menu = Container::Vertical(
       {
-        Window("General Menu", Menu(&playback_tab_entries, &tab_menu_selected)) | color(Color::GreenLight),
+        Window("Playback Help Menu", Menu(&playback_tab_entries, &tab_menu_selected)) | color(Color::GreenLight),
       }, &general_tab_selected);
 
     auto rendrer = Renderer([&] 
     {
       return window(text("Content"), 
                     vbox({
-                      text("*" + playback_tab_description[tab_menu_selected]),
-                    })) | flex ;
+                      //color(Color::White, text("*" + playback_tab_description[tab_menu_selected])),
+                      color(Color::White, playback_test_array[tab_menu_selected]),
+                    })) | flex | color(Color::Yellow);
 
 
     });
