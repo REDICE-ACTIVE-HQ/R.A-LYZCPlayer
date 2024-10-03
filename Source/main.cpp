@@ -17,7 +17,14 @@
 using namespace ftxui;
 
 int main(int argc, char const *argv[])
-{
-  playbackmenu::ShowLocalStream();
+{  
+  if(argv[1] == "-")
+  {
+    playbackmenu::ShowHelpMenu();
+  }
+  for(int i = 0; i < argc; i++)
+  {
+    std::cout << argv[i] << '\n';
+  }
   return 0;
 }
