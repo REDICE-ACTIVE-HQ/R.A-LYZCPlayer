@@ -24,6 +24,7 @@ FetchContent_MakeAvailable(ftxui)
 # ------------------------------------------------------------------------------
 
 add_executable(lyzc-player Source/main.cpp)
+add_compile_options(-fdiagnostics-color=always)
 target_include_directories(lyzc-player PRIVATE Source)
 
 target_link_libraries(lyzc-player

@@ -1,5 +1,6 @@
 # Custom 
-test_build/*
+test_build
+ninja_test_build
 # Prerequisites
 *.d
 

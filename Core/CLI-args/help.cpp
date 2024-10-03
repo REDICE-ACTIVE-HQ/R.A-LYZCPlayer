@@ -1,27 +1,103 @@
 #include <iostream>
 #include <string>
+#include <vector>
 
-#include <ftxui/dom/elements.hpp>
+#include "ftxui/component/captured_mouse.hpp"  // for ftxui
+#include "ftxui/component/component.hpp"  // for Radiobox, Horizontal, Menu, Renderer, Tab
+#include "ftxui/component/component_base.hpp"      // for ComponentBase
+#include "ftxui/component/screen_interactive.hpp"  // for ScreenInteractive
+#include "ftxui/dom/elements.hpp"
 #include <ftxui/screen/screen.hpp>
 
 using namespace ftxui;
 
-namespace  helpmenu
+Component Window(std::string title, Component component) {
+  return Renderer(component, [component, title] {  //
+    return window(text(title), component->Render()) | flex;
+  });
+}
+
+
+namespace  playbackmenu
 {
-	void HelpMenu()
+	std::vector<std::string> playback_tab_entries = {"Local Stream Files", "Online Stream Files", "Core Info"};
+  std::vector<std::string> playback_tab_description = {"Desc 1", "Desc 2", "Desc 3"};
+
+  void ShowLocalStream()
 	{
-		Element document = 
-			vbox({
-					vbox({text("LYZC-Player By LYZENCORE-9 (DISTROXYDE 8)") | bold | underlined | color(Color::Magenta)}),
-					vbox({text("1234") | bold | color(Color::Blue)}),
+    auto screen = ScreenInteractive::TerminalOutput();
+    int tab_menu_selected = 0;
+    int general_tab_selected = 0;
+
+    Component general_tab_menu = Container::Vertical(
+      {
+        Window("General Menu", Menu(&playback_tab_entries, &tab_menu_selected)) | color(Color::GreenLight),
+      }, &general_tab_selected);
+
+    auto rendrer = Renderer([&] 
+    {
+      return window(text("Content"), 
+                    vbox({
+                      text("*" + playback_tab_description[tab_menu_selected]),
+                    })) | flex ;
 
 
-			}); 
+    });
+
+    Component main_container = Container::Horizontal({
+      general_tab_menu,
+      rendrer,
+    });
+
+    screen.Loop(main_container);
 
 
-		auto screen = Screen::Create(Dimension::Full(),Dimension::Fit(document));
-		Render(screen, document);
-		screen.Print();
 	}
+
+  
 	
 }
+
+/*
+auto screen = ScreenInteractive::TerminalOutput();
+
+  std::vector<std::string> entries = {
+      "entry 1",
+      "entry 2",
+      "entry 3",
+  };
+  int selected = 0;
+
+  MenuOption option;
+  option.on_enter = screen.ExitLoopClosure();
+  auto menu = Menu(&entries, &selected, option);
+
+  screen.Loop(menu);
+
+  std::cout << "Selected element = " << selected << std::endl;
+
+
+*/
+
+
+
+
+
+
+
+
+/*
+
+Element document = {
+                        hbox({
+                              vbox(text("test")),
+                              separator(),
+                              vbox({ 
+                                text("vertical text"),
+                              }),
+                        }) | border,                      
+    };
+
+    auto screen = Screen::Create(Dimension::Fullscreen());
+    Render(screen, document);
+    screen.Print();*/
