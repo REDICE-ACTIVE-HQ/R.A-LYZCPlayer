@@ -17,7 +17,7 @@ Component Window(std::string title, Component component) {
   });
 }
 
-namespace  playbackmenu
+namespace  PlaybackHelp
 {
 	std::vector<std::string> playback_tab_entries = {"Local Stream", "Online Stream", "Core Info"};
   std::vector<Element> playback_tab_description = {

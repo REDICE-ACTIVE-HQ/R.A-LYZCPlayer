@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "../Core/CLI-args/help.cpp"
+#include "../Core/CLI-parser/parser-main.cpp"
 
 
 #include <functional>  // for function
@@ -18,13 +18,7 @@ using namespace ftxui;
 
 int main(int argc, char const *argv[])
 {  
-  if(argv[1] == "-")
-  {
-    playbackmenu::ShowHelpMenu();
-  }
-  for(int i = 0; i < argc; i++)
-  {
-    std::cout << argv[i] << '\n';
-  }
+  Parser::Init(argc, argv);
+
   return 0;
 }
